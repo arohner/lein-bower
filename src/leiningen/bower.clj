@@ -52,6 +52,7 @@
      (println (help/help-for "bower"))
      (main/abort))
   ([project & args]
+   (let [project (dissoc project :npm-root)]
      (environmental-consistency project)
      (cond (= ["pprint"] args)
            (do (bower-debug project (bower-package-file project) project->component)
@@ -62,7 +63,7 @@
              (bower-package-file project) (project->component project) project
              (with-json-file
                (bower-config-file project) (project->bowerrc project) project
-               (apply invoke project args))))))
+               (apply invoke project args)))))))
 
 (defn install-deps
   [project]
